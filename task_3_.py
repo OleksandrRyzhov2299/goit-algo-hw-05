@@ -1,3 +1,7 @@
+import os
+import timeit
+
+# Функції для алгоритмів пошуку підрядка
 def boyer_moore(text, pattern):
     m = len(pattern)
     n = len(text)
@@ -16,7 +20,6 @@ def boyer_moore(text, pattern):
         else:
             s += max(1, j - bad_char[ord(text[s + j])])
     return -1
-
 
 def kmp_search(text, pattern):
     def compute_lps_array(pattern):
@@ -54,7 +57,6 @@ def kmp_search(text, pattern):
                 i += 1
     return -1
 
-
 def rabin_karp(text, pattern):
     d = 256
     q = 101
@@ -83,43 +85,47 @@ def rabin_karp(text, pattern):
                 t += q
     return -1
 
+# Перевірка існування файлів
+if not os.path.exists('article1.txt'):
+    print("Файл 'article1.txt' не знайдено.")
+else:
+    with open('article1.txt', 'r', encoding='utf-8') as file:
+        text1 = file.read()
 
-import timeit
-
-# Завантаження текстових файлів
-with open('article1.txt', 'r', encoding='utf-8') as file:
-    text1 = file.read()
-
-with open('article2.txt', 'r', encoding='utf-8') as file:
-    text2 = file.read()
+if not os.path.exists('article2.txt'):
+    print("Файл 'article2.txt' не знайдено.")
+else:
+    with open('article2.txt', 'r', encoding='utf-8') as file:
+        text2 = file.read()
 
 # Підрядки для пошуку
 substring_existing = "example"
 substring_non_existing = "nonexistent"
 
-# Вимірювання часу для статті 1
-time_boyer_moore_existing_1 = timeit.timeit(lambda: boyer_moore(text1, substring_existing), number=1000)
-time_boyer_moore_non_existing_1 = timeit.timeit(lambda: boyer_moore(text1, substring_non_existing), number=1000)
+# Вимірювання часу для статті 1 (якщо файл існує)
+if 'text1' in locals():
+    time_boyer_moore_existing_1 = timeit.timeit(lambda: boyer_moore(text1, substring_existing), number=1000)
+    time_boyer_moore_non_existing_1 = timeit.timeit(lambda: boyer_moore(text1, substring_non_existing), number=1000)
 
-time_kmp_existing_1 = timeit.timeit(lambda: kmp_search(text1, substring_existing), number=1000)
-time_kmp_non_existing_1 = timeit.timeit(lambda: kmp_search(text1, substring_non_existing), number=1000)
+    time_kmp_existing_1 = timeit.timeit(lambda: kmp_search(text1, substring_existing), number=1000)
+    time_kmp_non_existing_1 = timeit.timeit(lambda: kmp_search(text1, substring_non_existing), number=1000)
 
-time_rabin_karp_existing_1 = timeit.timeit(lambda: rabin_karp(text1, substring_existing), number=1000)
-time_rabin_karp_non_existing_1 = timeit.timeit(lambda: rabin_karp(text1, substring_non_existing), number=1000)
+    time_rabin_karp_existing_1 = timeit.timeit(lambda: rabin_karp(text1, substring_existing), number=1000)
+    time_rabin_karp_non_existing_1 = timeit.timeit(lambda: rabin_karp(text1, substring_non_existing), number=1000)
 
-# Вимірювання часу для статті 2
-time_boyer_moore_existing_2 = timeit.timeit(lambda: boyer_moore(text2, substring_existing), number=1000)
-time_boyer_moore_non_existing_2 = timeit.timeit(lambda: boyer_moore(text2, substring_non_existing), number=1000)
+    print(f"Стаття 1, існуючий підрядок: Боєра-Мура: {time_boyer_moore_existing_1}, Кнута-Морріса-Пратта: {time_kmp_existing_1}, Рабіна-Карпа: {time_rabin_karp_existing_1}")
+    print(f"Стаття 1, неіснуючий підрядок: Боєра-Мура: {time_boyer_moore_non_existing_1}, Кнута-Морріса-Пратта: {time_kmp_non_existing_1}, Рабіна-Карпа: {time_rabin_karp_non_existing_1}")
 
-time_kmp_existing_2 = timeit.timeit(lambda: kmp_search(text2, substring_existing), number=1000)
-time_kmp_non_existing_2 = timeit.timeit(lambda: kmp_search(text2, substring_non_existing), number=1000)
+# Вимірювання часу для статті 2 (якщо файл існує)
+if 'text2' in locals():
+    time_boyer_moore_existing_2 = timeit.timeit(lambda: boyer_moore(text2, substring_existing), number=1000)
+    time_boyer_moore_non_existing_2 = timeit.timeit(lambda: boyer_moore(text2, substring_non_existing), number=1000)
 
-time_rabin_karp_existing_2 = timeit.timeit(lambda: rabin_karp(text2, substring_existing), number=1000)
-time_rabin_karp_non_existing_2 = timeit.timeit(lambda: rabin_karp(text2, substring_non_existing), number=1000)
+    time_kmp_existing_2 = timeit.timeit(lambda: kmp_search(text2, substring_existing), number=1000)
+    time_kmp_non_existing_2 = timeit.timeit(lambda: kmp_search(text2, substring_non_existing), number=1000)
 
-# Виведення результатів
-print(f"Стаття 1, існуючий підрядок: Боєра-Мура: {time_boyer_moore_existing_1}, Кнута-Морріса-Пратта: {time_kmp_existing_1}, Рабіна-Карпа: {time_rabin_karp_existing_1}")
-print(f"Стаття 1, неіснуючий підрядок: Боєра-Мура: {time_boyer_moore_non_existing_1}, Кнута-Морріса-Пратта: {time_kmp_non_existing_1}, Рабіна-Карпа: {time_rabin_karp_non_existing_1}")
+    time_rabin_karp_existing_2 = timeit.timeit(lambda: rabin_karp(text2, substring_existing), number=1000)
+    time_rabin_karp_non_existing_2 = timeit.timeit(lambda: rabin_karp(text2, substring_non_existing), number=1000)
 
-print(f"Стаття 2, існуючий підрядок: Боєра-Мура: {time_boyer_moore_existing_2}, Кнута-Морріса-Пратта: {time_kmp_existing_2}, Рабіна-Карпа: {time_rabin_karp_existing_2}")
-print(f"Стаття 2, неіснуючий підрядок: Боєра-Мура: {time_boyer_moore_non_existing_2}, Кнута-Морріса-Пратта: {time_kmp_non_existing_2}, Рабіна-Карпа: {time_rabin_karp_non_existing_2}")
+    print(f"Стаття 2, існуючий підрядок: Боєра-Мура: {time_boyer_moore_existing_2}, Кнута-Морріса-Пратта: {time_kmp_existing_2}, Рабіна-Карпа: {time_rabin_karp_existing_2}")
+    print(f"Стаття 2, неіснуючий підрядок: Боєра-Мура: {time_boyer_moore_non_existing_2}, Кнута-Морріса-Пратта: {time_kmp_non_existing_2}, Рабіна-Карпа: {time_rabin_karp_non_existing_2}")
