@@ -99,7 +99,7 @@ else:
         text2 = file.read()
 
 # Підрядки для пошуку
-substring_existing = "example"
+substring_existing = "Література"
 substring_non_existing = "nonexistent"
 
 # Вимірювання часу для статті 1 (якщо файл існує)
